@@ -1,25 +1,51 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Login = () => {
-    const [showPass, setShowPass] = useState(false)
-    "password"
+  const [showPass, setShowPass] = useState(false);
+  const [err, setErr] = useState("");
+  const { signIn } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
-    //   reset,
+      // reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    signIn(data.email, data.password)
+      .then(result => {
+        const user = result.user;
+         setErr('')
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Login successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        console.log(user)
+      })
+    .catch((err) => {
+        setErr(err.message)
+        // console.log(err.message);
+      });
+   
   };
 
   return (
     <div className="card mx-auto w-full max-w-sm shadow-2xl bg-base-100">
       <h2 className="text-3xl text-center">Login now!</h2>
+      {errors && (
+        <p className="text-red-600 mx-auto mt-4">{ err}</p>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="card-body">
         <div className="form-control">
           <label className="label">
@@ -47,9 +73,9 @@ const Login = () => {
           />
           <div onClick={() => setShowPass(!showPass)}>
             {showPass ? (
-              <small>Hide PassWord</small>
+              <AiFillEyeInvisible className="text-2xl"></AiFillEyeInvisible>
             ) : (
-              <small>Show PassWord</small>
+              <AiFillEye className="text-2xl"></AiFillEye>
             )}
           </div>
           <label className="label">
@@ -64,7 +90,7 @@ const Login = () => {
       </form>
       <p>
         <small>
-          New Here?<Link to="/register">Register</Link>
+          New Here?<Link to="/register">Create an account</Link>
         </small>
       </p>
       <SocialLogin></SocialLogin>

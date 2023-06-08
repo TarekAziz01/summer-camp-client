@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+  
 
-  const handleLogin = () => {
-    // Code to handle login functionality
-    setLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    // Code to handle logout functionality
-    setLoggedIn(false);
-  };
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Log Out successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+       
+      })
+      .catch((error) => console.log(error));
+  }
 
   const handleProfileClick = () => {
     setShowLogout(!showLogout);
@@ -89,7 +97,7 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">{nabOptions}</ul>
       </div>
       <div className="navbar-end">
-        {loggedIn ? (
+        {user ? (
           <div>
             <img
               src="profile-picture.jpg"
@@ -100,7 +108,7 @@ const NavBar = () => {
             {showLogout && (
               <button
                 className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
-                onClick={handleLogout}
+                onClick={handleLogOut}
               >
                 Log Out
               </button>
@@ -109,7 +117,6 @@ const NavBar = () => {
         ) : (
           <button
             className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
-            onClick={handleLogin}
           >
             Log In
           </button>

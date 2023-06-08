@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
 
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
+  const { createUser } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -19,13 +19,17 @@ const Register = () => {
 
   const onSubmit = (data) => {
      const { password, confirmedPassword } = data;
-
      if (password !== confirmedPassword) {
        setError("Password and confirmed password do not match.");
        return;
      } else {
        setError('')
     }
+    createUser(data.email, data.password)
+      .then(result => {
+        const loggedUser = result.user;
+        console.log(loggedUser)
+    })
     
 
     console.log(data);
@@ -72,11 +76,25 @@ const Register = () => {
           </label>
           <input
             type={showPass ? "text" : "password"}
-            {...register("password", { required: true })}
-            // onBlur={(e) => setPassword(e.target.value)}
+            {...register("password", {
+              required: true,
+              minLength: 6,
+              pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/,
+            })}
             placeholder="password"
             className="input input-bordered"
           />
+          {errors.password?.type === "required" && (
+            <span className="text-red-600">Password is required</span>
+          )}
+          {errors.password?.type === "minLength" && (
+            <p className="text-red-600">Password must be 6 character</p>
+          )}
+          {errors.password?.type === "pattern" && (
+            <p className="text-red-600">
+              Password must have one capital letter and one special character
+            </p>
+          )}
         </div>
         <div className="form-control">
           <label className="label">
@@ -84,19 +102,34 @@ const Register = () => {
           </label>
           <input
             type={showPass ? "text" : "password"}
-            {...register("confirmedPassword", { required: true })}
-            // onBlur={(e) => setConfirmPassword(e.target.value)}
+            {...register("confirmedPassword", {
+              required: true,
+              minLength: 6,
+              pattern: /(?=.*[A-Z])(?=.*[!@#$&*])/,
+            })}
             placeholder="confirmed password"
             className="input input-bordered"
           />
-        </div>
-        <div onClick={() => setShowPass(!showPass)}>
-          {showPass ? (
-            <small>Hide PassWord</small>
-          ) : (
-            <small>Show PassWord</small>
+          {errors.confirmedPassword?.type === "required" && (
+            <span className="text-red-600">confirmed Password is required</span>
+          )}
+          {errors.confirmedPassword?.type === "minLength" && (
+            <p className="text-red-600">
+              confirmed Password must be 6 character
+            </p>
+          )}
+          {errors.confirmedPassword?.type === "pattern" && (
+            <p className="text-red-600">
+              confirmed Password must have one capital letter and one special character </p>
           )}
         </div>
+        <span onClick={() => setShowPass(!showPass)}>
+          {showPass ? (
+            <AiFillEyeInvisible className="text-2xl"></AiFillEyeInvisible>
+          ) : (
+            <AiFillEye className="text-2xl"></AiFillEye>
+          )}
+        </span>
         <label className="label">
           <a href="#" className="label-text-alt link link-hover">
             Forgot password?
