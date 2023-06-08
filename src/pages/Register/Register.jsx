@@ -1,15 +1,22 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
 
   const [error, setError] = useState("");
   const { createUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -18,7 +25,8 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-     const { password, confirmedPassword } = data;
+    const { password, confirmedPassword } = data;
+    
      if (password !== confirmedPassword) {
        setError("Password and confirmed password do not match.");
        return;
@@ -28,11 +36,18 @@ const Register = () => {
     createUser(data.email, data.password)
       .then(result => {
         const loggedUser = result.user;
-        console.log(loggedUser)
-    })
+        //TODO: set photo in data
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Register Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate(from, { replace: true });
+        console.log(loggedUser);
+      })
     
-
-    console.log(data);
   };
 
   
@@ -54,6 +69,20 @@ const Register = () => {
           />
           {errors.name && (
             <span className="text-red-600">Name is required</span>
+          )}
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="label-text">Photo URL</span>
+          </label>
+          <input
+            type="text"
+            {...register("photoURL", { required: true })}
+            placeholder="Photo URL"
+            className="input input-bordered"
+          />
+          {errors.photoURL && (
+            <span className="text-red-600">Photo URL is required</span>
           )}
         </div>
         <div className="form-control">
@@ -120,7 +149,9 @@ const Register = () => {
           )}
           {errors.confirmedPassword?.type === "pattern" && (
             <p className="text-red-600">
-              confirmed Password must have one capital letter and one special character </p>
+              confirmed Password must have one capital letter and one special
+              character{" "}
+            </p>
           )}
         </div>
         <span onClick={() => setShowPass(!showPass)}>

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -10,6 +10,10 @@ const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const [err, setErr] = useState("");
   const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -30,6 +34,7 @@ const Login = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigate(from, { replace: true });
 
         console.log(user)
       })

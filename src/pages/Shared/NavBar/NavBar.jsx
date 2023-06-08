@@ -30,33 +30,28 @@ const NavBar = () => {
   const nabOptions = (
     <>
       <li>
-        <Link className="text-white hover:text-gray-300" to="/course">
+        <Link className="text-white hover:text-gray-300" to="/">
           Home
         </Link>
       </li>
       <li>
-        <Link className="text-white hover:text-gray-300" to="/course">
-          Course
-        </Link>
-      </li>
-      <li>
-        <Link className="text-white hover:text-gray-300" to="/course">
+        <Link className="text-white hover:text-gray-300" to="/instructor">
           Instructors
         </Link>
       </li>
       <li>
-        <Link className="text-white hover:text-gray-300" to="/course">
-          Contact
+        <Link className="text-white hover:text-gray-300" to="/classes">
+          Classes
+        </Link>
+      </li>
+      <li>
+        <Link className="text-white hover:text-gray-300" to="/dashboard">
+          Dashboard
         </Link>
       </li>
       <li>
         <Link className="text-white hover:text-gray-300" to="/login">
           Login
-        </Link>
-      </li>
-      <li>
-        <Link className="text-white hover:text-gray-300" to="/course">
-          About
         </Link>
       </li>
     </>
@@ -115,10 +110,8 @@ const NavBar = () => {
             )}
           </div>
         ) : (
-          <button
-            className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200"
-          >
-            Log In
+          <button className="bg-white text-blue-500 font-semibold py-2 px-4 rounded-full hover:bg-gray-200">
+            <Link to="/login">Login</Link>
           </button>
         )}
       </div>
