@@ -23,15 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/classes",
-        element: (
-          <PrivateRoute>
-            <Classes></Classes>
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/dashboard",
-        element: <Dashboard></Dashboard>,
+        element: <Classes></Classes>,
       },
       {
         path: "/login",
@@ -40,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Dashboard></Dashboard>
+          </PrivateRoute>
+        ),
       },
     ],
   },
