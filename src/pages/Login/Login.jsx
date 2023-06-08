@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogin from "../../component/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [showPass, setShowPass] = useState(false);

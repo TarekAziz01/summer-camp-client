@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import { useContext, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import SocialLogin from "../../component/SocialLogin/SocialLogin";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
@@ -20,7 +20,7 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    //   reset,
+      reset,
     formState: { errors },
   } = useForm();
 
@@ -36,16 +36,33 @@ const Register = () => {
     createUser(data.email, data.password)
       .then(result => {
         const loggedUser = result.user;
+        loggedUser.displayName = data.name;
+        loggedUser.photoURL = data.photoURL;
+
+         console.log(loggedUser);
         //TODO: set photo in data
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Register Successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate(from, { replace: true });
-        console.log(loggedUser);
+        const newUser={name: data.name, email: data.email}
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              reset();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Register Successful",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate(from, { replace: true });
+            }
+          });
       })
     
   };
