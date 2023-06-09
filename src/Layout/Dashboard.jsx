@@ -29,9 +29,27 @@ const Dashboard = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/">
-             Home
-            </NavLink>
+            <NavLink to="/dashboard/payment">Payment</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/addClass">Add class</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/myClasses">My classes</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/manageClasses">Manage classes</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
+          </li>
+
+          <div className="divider"></div>
+          <li>
+            <NavLink to="/">Home</NavLink>
           </li>
         </ul>
       </div>
