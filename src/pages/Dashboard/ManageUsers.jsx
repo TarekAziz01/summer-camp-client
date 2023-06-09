@@ -11,12 +11,36 @@ const ManageUsers = () => {
 
 
     const handleDelete = (user) => {
-        console.log("mk delete:", user.name, user._id);
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`http://localhost:5000/user/${user._id}`, {
+              method: "DELETE",
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.deletedCount > 0) {
+                  refetch();
+                  Swal.fire(
+                    "Deleted!",
+                    "User has been deleted.",
+                    "success"
+                  );
+                }
+              });
+          }
+        });
     }
 
 
     const handleMakeAdmin = user => {
-        console.log(user.name, user._id)
         fetch(`http://localhost:5000/user/admin/${user._id}`, {
             method:'PATCH'
         })
@@ -38,14 +62,30 @@ const ManageUsers = () => {
 
 
     const handleMkInstructor = (user) => {
-        console.log('mkInst:',user.name, user._id);
+        fetch(`http://localhost:5000/user/instructor/${user._id}`, {
+          method: "PATCH",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.modifiedCount) {
+              refetch();
+              Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: `${user.name} is an instructor Now`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          });
     }
 
 
 
     return (
       <div className="w-full">
-        <h1 className="text-3xl font-semibold my-4"> users: {users.length}</h1>
+        <h1 className="text-3xl font-semibold my-4"> users: {users?.length}</h1>
         <div className="overflow-x-auto">
           <table className="table  w-full">
             {/* head */}
@@ -61,14 +101,14 @@ const ManageUsers = () => {
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <tr key={user._id} className="hover">
+                <tr key={user?._id} className="hover">
                   <th>{index + 1}</th>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
+                  <td>{user?.name}</td>
+                  <td>{user?.email}</td>
                   <td>
-                    {user.role === 'admin'? 'admin':<button onClick={()=>handleMakeAdmin(user)} className="btn btn-ghost bg-indigo-300"><FaUserShield></FaUserShield></button>}
+                    {user?.role === 'admin'? 'admin':<button onClick={()=>handleMakeAdmin(user)} className="btn btn-ghost bg-indigo-300"><FaUserShield></FaUserShield></button>}
                   </td>
-                  <td>{user.role === 'instructor'? 'instructor':<button onClick={()=>handleMkInstructor(user)} className="btn btn-ghost bg-emerald-300">make instructor</button>}
+                  <td>{user?.role === 'instructor'? 'instructor':<button onClick={()=>handleMkInstructor(user)} className="btn btn-ghost bg-emerald-300">make instructor</button>}
                   </td>
                   <td>
                     <button onClick={()=>handleDelete(user)} className="btn btn-ghost bg-red-400"><BsTrashFill></BsTrashFill></button>
