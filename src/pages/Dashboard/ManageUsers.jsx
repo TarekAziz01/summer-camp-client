@@ -1,9 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
 
 
 const ManageUsers = () => {
+    const {data:users=[], refetch } = useQuery(['users'], async () => {
+        const res = await fetch("http://localhost:5000/users")
+        return res.json()
+    })
     return (
         <div>
-            <h1>admin manage users</h1>
+            <h1> users:{users.length}</h1>
         </div>
     );
 };

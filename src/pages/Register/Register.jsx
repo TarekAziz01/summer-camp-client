@@ -38,10 +38,10 @@ const Register = () => {
         const loggedUser = result.user;
         loggedUser.displayName = data.name;
         loggedUser.photoURL = data.photoURL;
-
-         console.log(loggedUser);
         //TODO: set photo in data
-        const newUser={name: data.name, email: data.email}
+        console.log(loggedUser);
+
+        const newUser = { name: data.name, email: data.email };
         fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {

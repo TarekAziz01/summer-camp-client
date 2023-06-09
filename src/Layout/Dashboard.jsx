@@ -1,6 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
+
+    //TODO: set dynamic user role 
+    const isAdmin = true;
+    const isInstructor = false;
+    const isUser = false;
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -18,34 +24,48 @@ const Dashboard = () => {
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content">
           {/* Sidebar content here */}
-          <li>
-            <NavLink to="/dashboard/selectedClasses">
-              My Selected classes
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/enrolledClasses">
-              My Enrolled classes
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/payment">Payment</NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/paymentHistory">Payment History</NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/addClass">Add class</NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/myClasses">My classes</NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/manageClasses">Manage classes</NavLink>
-          </li>
-          <li>
-            <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
-          </li>
+          {isAdmin && (
+            <>
+              <li>
+                <NavLink to="/dashboard/manageClasses">Manage classes</NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/manageUsers">Manage Users</NavLink>
+              </li>
+            </>
+          )}
+          {isInstructor && (
+            <>
+              <li>
+                <NavLink to="/dashboard/addClass">Add class</NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/myClasses">My classes</NavLink>
+              </li>
+            </>
+          )}
+          {isUser && (
+            <>
+              <li>
+                <NavLink to="/dashboard/selectedClasses">
+                  My Selected classes
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/enrolledClasses">
+                  My Enrolled classes
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/payment">Payment</NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/paymentHistory">
+                  Payment History
+                </NavLink>
+              </li>
+            </>
+          )}
 
           <div className="divider"></div>
           <li>
