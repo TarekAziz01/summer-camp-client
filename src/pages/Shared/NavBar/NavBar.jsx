@@ -95,9 +95,9 @@ const NavBar = () => {
         {user ? (
           <div>
             <img
-              //TODO: add user picture 
-              src="profile-picture.jpg"
-              alt="User Profile"
+              //TODO: add user picture
+              src={user.photoURL}
+              alt={user.displayName}
               className="h-8 w-8 rounded-full cursor-pointer"
               onClick={handleProfileClick}
             />
