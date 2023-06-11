@@ -2,11 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { BsTrashFill } from "react-icons/bs";
 import { FaUserShield } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const ManageUsers = () => {
+    // const token = localStorage.getItem('access-token');
+    const axios = useAxiosSecure();
     const {data:users=[], refetch } = useQuery(['users'], async () => {
-        const res = await fetch("http://localhost:5000/users")
-        return res.json()
+        const res = await axios("/users");
+        return res.data
     })
 
 
@@ -100,9 +103,9 @@ const ManageUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+              {users.length && users.map((user, index) => (
                 <tr key={user?._id} className="hover">
-                  <th>{index + 1}</th>
+                  <td>{index + 1}</td>
                   <td>{user?.name}</td>
                   <td>{user?.email}</td>
                   <td>
