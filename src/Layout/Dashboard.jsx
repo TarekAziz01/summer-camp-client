@@ -1,9 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../hook/useAdmin";
 
 const Dashboard = () => {
 
-    //TODO: set dynamic user role 
-    const isAdmin = true;
+    //TODO: set dynamic user role
+    // const isAdmin = true;
+  const [isAdmin] = useAdmin();
     const isInstructor = false;
     const isUser = false;
 

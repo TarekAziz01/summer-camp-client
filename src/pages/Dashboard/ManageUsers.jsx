@@ -5,9 +5,8 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const ManageUsers = () => {
-    // const token = localStorage.getItem('access-token');
     const axios = useAxiosSecure();
-    const {data:users=[], refetch } = useQuery(['users'], async () => {
+    const {data : users=[], refetch } = useQuery(['users'], async () => {
         const res = await axios("/users");
         return res.data
     })
