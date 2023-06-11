@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import useAdmin from "../hook/useAdmin";
 import useInstructor from "../hook/useInstructor";
+import useStudent from "../hook/useStudent";
 
 const Dashboard = () => {
 
@@ -9,7 +10,8 @@ const Dashboard = () => {
   const [isAdmin] = useAdmin();
     // const isInstructor = false;
   const [isInstructor] = useInstructor();
-    const isUser = false;
+    // const isStudent = false;
+  const [isStudent]=useStudent()
 
   return (
     <div className="drawer lg:drawer-open">
@@ -48,7 +50,7 @@ const Dashboard = () => {
               </li>
             </>
           )}
-          {isUser && (
+          {isStudent && (
             <>
               <li>
                 <NavLink to="/dashboard/selectedClasses">
