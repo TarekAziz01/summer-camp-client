@@ -8,9 +8,8 @@ import SocialLogin from "../../component/SocialLogin/SocialLogin";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
-
   const [error, setError] = useState("");
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,39 +32,42 @@ const Register = () => {
     } else {
       setError("");
     }
-    createUser(data.email, data.password).then((result) => {
-      const loggedUser = result.user;
-      loggedUser.displayName = data.name;
-      loggedUser.photoURL = data.photoURL;
-      //TODO: set photo in data
-      console.log(loggedUser);
 
-      const newUser = {
-        name: data.name,
-        email: data.email,
-        image: data.photoURL,
-      };
-      fetch("https://summer-camp-server-brown.vercel.app/users", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(newUser),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.insertedId) {
-            reset();
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Register Successful",
-              showConfirmButton: false,
-              timer: 1500,
+    createUser(data.email, data.password)
+      .then(result => {
+
+      const loggedUser = result.user;
+        console.log(loggedUser);
+        
+        updateUserProfile(data.name, data.photoURL)
+          .then(() => {
+          const newUser = {
+            name: data.name,
+            email: data.email,
+            image: data.photoURL,
+          };
+          fetch("https://summer-camp-server-brown.vercel.app/users", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Register Successful",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate(from, { replace: true });
+              }
             });
-            navigate(from, { replace: true });
-          }
-        });
+        })
     });
   };
 
