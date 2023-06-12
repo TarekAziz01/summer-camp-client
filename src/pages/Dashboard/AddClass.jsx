@@ -22,7 +22,7 @@ const AddClass = () => {
         if (data.data.insertedId) {
           reset();
           Swal.fire({
-            position: "top-end",
+            position: "top-center",
             icon: "success",
             title: `${newClass.name} Class Added successfully`,
             showConfirmButton: false,
@@ -38,7 +38,7 @@ const AddClass = () => {
         <h2 className="text-3xl font-semibold text-center">
           Add a New Class here
         </h2>
-        <h2 className="text-center mt-2">{user.displayName}</h2>
+        <h2 className="text-2xl text-center mt-2 font-serif">Instructor: {user.displayName}</h2>
         <div className="py-16 mx-auto">
           <form className="" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex">
