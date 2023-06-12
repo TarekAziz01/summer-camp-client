@@ -79,12 +79,15 @@ const NavBar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-blue-500 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-blue-500 rounded-box w-52 z-100"
           >
             {nabOptions}
           </ul>
         </div>
-        <Link to='/' className="btn btn-ghost normal-case text-xl text-white font-bold">
+        <Link
+          to="/"
+          className="btn btn-ghost normal-case text-xl text-white font-bold"
+        >
           SportLearn
         </Link>
       </div>
