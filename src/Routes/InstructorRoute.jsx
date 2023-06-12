@@ -8,10 +8,10 @@ const InstructorRoute = ({ children }) => {
     const [isInstructor, isInstructorLoading]=useInstructor()
   const location = useLocation();
 
-  if (loading || isInstructor) {
-    return <progress className="progress w-56"></progress>;
+  if (loading || isInstructorLoading) {
+    return <span className="loading loading-infinity loading-lg"></span>;
   }
-  if (user && isInstructorLoading) {
+  if (user && isInstructor) {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;

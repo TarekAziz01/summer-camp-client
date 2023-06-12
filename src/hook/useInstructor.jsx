@@ -11,7 +11,7 @@ const useInstructor = () => {
       ["isInstructor", user?.email],
       async () => {
         const res = await axios.get(`/users/instructor/${user?.email}`);
-        console.log("is instructor", res);
+        // console.log("is instructor", res);
         return res.data.instructor;
       }
     );
