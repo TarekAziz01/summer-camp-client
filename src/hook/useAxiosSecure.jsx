@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
 const useAxiosSecure = () => {
-  const { logOut } = useContext(AuthContext)
+  const { logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: "https://summer-camp-server-brown.vercel.app",
   });
 
   useEffect(() => {

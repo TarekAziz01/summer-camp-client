@@ -20,54 +20,54 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-      reset,
+    reset,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
     const { password, confirmedPassword } = data;
-    
-     if (password !== confirmedPassword) {
-       setError("Password and confirmed password do not match.");
-       return;
-     } else {
-       setError('')
+
+    if (password !== confirmedPassword) {
+      setError("Password and confirmed password do not match.");
+      return;
+    } else {
+      setError("");
     }
-    createUser(data.email, data.password)
-      .then(result => {
-        const loggedUser = result.user;
-        loggedUser.displayName = data.name;
-        loggedUser.photoURL = data.photoURL;
-        //TODO: set photo in data
-        console.log(loggedUser);
+    createUser(data.email, data.password).then((result) => {
+      const loggedUser = result.user;
+      loggedUser.displayName = data.name;
+      loggedUser.photoURL = data.photoURL;
+      //TODO: set photo in data
+      console.log(loggedUser);
 
-        const newUser = { name: data.name, email: data.email ,image:data.photoURL};
-        fetch("http://localhost:5000/users", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(newUser),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.insertedId) {
-              reset();
-              Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Register Successful",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              navigate(from, { replace: true });
-            }
-          });
+      const newUser = {
+        name: data.name,
+        email: data.email,
+        image: data.photoURL,
+      };
+      fetch("https://summer-camp-server-brown.vercel.app/users", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(newUser),
       })
-    
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.insertedId) {
+            reset();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Register Successful",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate(from, { replace: true });
+          }
+        });
+    });
   };
-
-  
 
   return (
     <div className="card mx-auto w-full max-w-sm shadow-2xl bg-base-100">

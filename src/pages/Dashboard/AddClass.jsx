@@ -24,7 +24,7 @@ const AddClass = () => {
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: "New Class Added successfully",
+            title: `${newClass.name} Class Added successfully`,
             showConfirmButton: false,
             timer: 1500,
           });
