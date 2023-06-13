@@ -12,7 +12,8 @@ const Class = ({ item }) => {
           image: item.image,
             name: item.name,
             instructor: item.instructor,
-            availableSeat:item.availableSeat,
+          availableSeat: item.availableSeat,
+            state:'booked',
           price:item.price,
         };
       console.log(newItem)
