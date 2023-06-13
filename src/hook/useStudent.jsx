@@ -8,7 +8,7 @@ const useStudent = () => {
     const axios = useAxiosSecure();
     const {data:isStudent, isLoading:isStudentLoading} = useQuery(['isStudent', user?.email], async () => {
         const res = await axios.get(`/users/student/${user?.email}`)
-        console.log('is student', res);
+        // console.log('is student', res);
         return res.data.student;
     })
     return[isStudent,isStudentLoading]
