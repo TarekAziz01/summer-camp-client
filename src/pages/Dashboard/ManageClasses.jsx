@@ -27,7 +27,25 @@ const ManageClasses = () => {
   };
 
   const handleDeny = (item) => {
-    console.log(item.name)
+    fetch(
+      `https://summer-camp-server-brown.vercel.app/classes/deny/${item._id}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: `${item.name} is denied now`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
   }
 
 
