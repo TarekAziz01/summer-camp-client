@@ -1,19 +1,16 @@
 import Swal from "sweetalert2";
 import useClasses from "../../hook/useClasses";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const ManageClasses = () => {
   const [classes, , refetch] = useClasses();
-
+const axios = useAxiosSecure();
   const handleApprove = (item) => {
-    fetch(
-      `https://summer-camp-server-brown.vercel.app/classes/approved/${item._id}`,
-      {
-        method: "PATCH",
-      }
+    axios.patch(
+      `https://summer-camp-server-brown.vercel.app/classes/approved/${item._id}`
     )
-      .then((res) => res.json())
       .then((data) => {
-        if (data.modifiedCount) {
+        if (data.data.modifiedCount) {
           refetch();
           Swal.fire({
             position: "top-center",
@@ -27,15 +24,12 @@ const ManageClasses = () => {
   };
 
   const handleDeny = (item) => {
-    fetch(
-      `https://summer-camp-server-brown.vercel.app/classes/deny/${item._id}`,
-      {
-        method: "PATCH",
-      }
-    )
-      .then((res) => res.json())
+    axios
+      .patch(
+        `https://summer-camp-server-brown.vercel.app/classes/deny/${item._id}`
+      )
       .then((data) => {
-        if (data.modifiedCount) {
+        if (data.data.modifiedCount) {
           refetch();
           Swal.fire({
             position: "top-center",
@@ -51,7 +45,9 @@ const ManageClasses = () => {
 
   return (
     <div>
-      <h1>Manage All classes: {classes.length}</h1>
+      <h1 className="text-3xl font-semibold text-center my-10">
+        Manage All classes: {classes.length}
+      </h1>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
