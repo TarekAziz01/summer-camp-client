@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 
 const SelectedClasses = () => {
@@ -60,9 +61,11 @@ const SelectedClasses = () => {
                   <td>{item.instructor}</td>
                   <td>{item.price}</td>
                   <th>
-                    <button className="btn btn-outline btn-success btn-sm">
-                      Pay
-                    </button>
+                    <Link state={item} to={`/dashboard/payment/${item._id}`}>
+                      <button className="btn btn-outline btn-success btn-sm">
+                        Pay
+                      </button>
+                    </Link>
                   </th>
                   <th>
                     <button

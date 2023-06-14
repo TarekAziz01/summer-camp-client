@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
         element: <EnrolledClasses></EnrolledClasses>,
       },
       {
-        path: "payment",
+        path: "payment/:id",
         element: <Payment></Payment>,
       },
       {
@@ -106,6 +106,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/*",
-    element: <ErrorPage></ErrorPage>
+    element: <ErrorPage></ErrorPage>,
   },
 ]);
