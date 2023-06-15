@@ -81,10 +81,9 @@ const CheckoutForm = ({ price, item }) => {
               .then(res => {
                 if (res.data.deletedCount > 0) {
                   const newItem = {
-                    name: item.name,
-                    image: item.image,
-                    instructor: item.instructor,
-                    classesId: item.classesId,
+                    name: user?.displayName,
+                    email: user?.email,
+                    item: item,
                   };
                   axios.post("/enrolled", newItem).then(() => { });
                   
