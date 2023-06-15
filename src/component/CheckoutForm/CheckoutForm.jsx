@@ -1,8 +1,11 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
 const CheckoutForm = () => {
     const stripe = useStripe();
-    const elements = useElements();
+  const elements = useElements();
+  const [cardError, setCardError] = useState('')
+  
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -15,34 +18,54 @@ const CheckoutForm = () => {
         if (card == null) {
           return;
         }
+        // console.log('card',card)
+      const {error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card,
+      })
 
+      if (error) {
+        console.log('error', error)
+        setCardError(error.message)
+      }
+      else {
+        console.log('payment method', paymentMethod)
+        setCardError('');
+      }
 
 
      }
 
 
     return (
-      <form onSubmit={handleSubmit}>
-        <CardElement
-          options={{
-            style: {
-              base: {
-                fontSize: "16px",
-                color: "#424770",
-                "::placeholder": {
-                  color: "#aab7c4",
+      <>
+        <form className="w-2/3 m-5" onSubmit={handleSubmit}>
+          <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#424770",
+                  "::placeholder": {
+                    color: "#aab7c4",
+                  },
+                },
+                invalid: {
+                  color: "#9e2146",
                 },
               },
-              invalid: {
-                color: "#9e2146",
-              },
-            },
-          }}
-        />
-        <button type="submit" disabled={!stripe}>
-          Pay
-        </button>
-      </form>
+            }}
+          />
+          <button
+            className="btn btn-outline btn-primary btn-sm mt-4"
+            type="submit"
+            disabled={!stripe}
+          >
+            Pay
+          </button>
+        </form>
+        {cardError && <p className="text-red-400 m-5">{cardError}</p>}
+      </>
     );
 };
 
