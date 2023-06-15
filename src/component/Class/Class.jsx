@@ -16,7 +16,6 @@ const Class = ({ item }) => {
             state:'booked',
           price:item.price,
         };
-      console.log(newItem)
        fetch("https://summer-camp-server-brown.vercel.app/carts", {
          method: "POST",
          headers: {
@@ -26,7 +25,6 @@ const Class = ({ item }) => {
        })
          .then((res) => res.json())
          .then((data) => {
-           console.log(data);
            if (data.insertedId) {
              Swal.fire({
                position: "top-end",

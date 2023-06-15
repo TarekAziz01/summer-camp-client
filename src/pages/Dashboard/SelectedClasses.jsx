@@ -2,13 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 
 const SelectedClasses = () => {
 //TODO: lode data by user email
+  const{user}=useContext(AuthContext)
     const axios = useAxiosSecure();
     const { data: carts = [], refetch } = useQuery(["carts"], async () => {
-      const res = await axios("/carts/booked");
+      const res = await axios(`/carts/${user.email}`);
       return res.data;
     });
 

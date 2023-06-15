@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import useAxiosSecure from "../../hook/useAxiosSecure";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-// import Swal from "sweetalert2";
 
 const CheckoutForm = ({ price, item }) => {
   const { user } = useContext(AuthContext);
@@ -17,7 +16,6 @@ const CheckoutForm = ({ price, item }) => {
 
   useEffect(() => {
     axios.post("/create-payment-intent", { price }).then((data) => {
-      // console.log(data.data.clientSecret);
       setClientSecret(data.data.clientSecret);
     });
   }, [price, axios]);
@@ -78,21 +76,18 @@ const CheckoutForm = ({ price, item }) => {
       axios.post("/payments", payment)
         .then(res => {
           if (res.data.insertedId) {
+             Swal.fire("Successful!", "Payment successful.", "success");
             axios.delete(`/carts/${item._id}`)
               .then(res => {
                 if (res.data.deletedCount > 0) {
-                  Swal.fire(
-                    "Successful!",
-                    "Payment successful.",
-                    "success"
-                  );
                   const newItem = {
                     name: item.name,
                     image: item.image,
                     instructor: item.instructor,
                     classesId: item.classesId,
                   };
-                  axios.post("/enrolled", newItem).then(() => {});
+                  axios.post("/enrolled", newItem).then(() => { });
+                  
                 }
             })
 
