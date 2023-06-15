@@ -3,13 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
 
+const axiosSecure = axios.create({
+  baseURL: "https://summer-camp-server-brown.vercel.app",
+});
+
 const useAxiosSecure = () => {
   const { logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const axiosSecure = axios.create({
-    baseURL: "https://summer-camp-server-brown.vercel.app",
-  });
 
   useEffect(() => {
     axiosSecure.interceptors.request.use((config) => {
@@ -35,7 +36,7 @@ const useAxiosSecure = () => {
         return Promise.reject(error);
       }
     );
-  }, [logOut, navigate, axiosSecure]);
+  }, [logOut, navigate]);
 
   return axiosSecure;
 };
