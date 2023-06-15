@@ -27,7 +27,7 @@ const SelectedClasses = () => {
            axios.delete(`/carts/${item._id}`).then((res) => {
              console.log("deleted res", res.data);
              if (res.data.deletedCount > 0) {
-                  refetch();
+               refetch();
                Swal.fire("Deleted!", "Your file has been deleted.", "success");
              }
            });
