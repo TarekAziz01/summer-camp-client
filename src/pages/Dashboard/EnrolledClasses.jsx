@@ -11,7 +11,6 @@ const EnrolledClasses = () => {
       const res = await axios(`/enrolled/${user.email}`);
       return res.data;
     });
-  console.log(enrolled);
   
     return (
       <div>
