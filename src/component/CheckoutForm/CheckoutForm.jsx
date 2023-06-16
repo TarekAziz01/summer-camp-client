@@ -76,21 +76,18 @@ const CheckoutForm = ({ price, item }) => {
       axios.post("/payments", payment)
         .then(res => {
           if (res.data.insertedId) {
-             Swal.fire("Successful!", "Payment successful.", "success");
-            axios.delete(`/carts/${item._id}`)
-              .then(res => {
-                if (res.data.deletedCount > 0) {
-                  const newItem = {
-                    name: user?.displayName,
-                    email: user?.email,
-                    item: item,
-                  };
-                  axios.post("/enrolled", newItem).then(() => { });
-                  
-                }
-            })
-
-
+            Swal.fire("Successful!", "Payment successful.", "success");
+            axios.delete(`/carts/${item._id}`).then((res) => {
+              if (res.data.deletedCount > 0) {
+                const newItem = {
+                  name: user?.displayName,
+                  email: user?.email,
+                  item: item,
+                };
+                axios.post("/enrolled", newItem).then(() => { });
+                //TODO: by patch change the available seat and total enrol
+              }
+            });
           }
       })
     }

@@ -16,6 +16,7 @@ const AddClass = () => {
     } = useForm();
   const onSubmit = (newClass) => {
     newClass.status = "pending";
+    newClass.enrol="0"
 
     axios.post('/classes', newClass)
       .then(data => {
